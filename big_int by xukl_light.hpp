@@ -2,7 +2,7 @@
 	Name: big_int
 	Copyright: GPLv3.0
 	Author: xukl
-	Date: 15/08/17 19:29
+	Date: 15/08/17 22:03
 	Description: Big integer class.
 */
 #ifndef __BIGINT__
@@ -49,7 +49,7 @@ class big_int
 		}
 		big_int(long long a) : x()
 		{
-			sign = (a < 0);
+			sign = (a >= 0);
 			if (!sign)
 				a = -a;
 			if (a > 0)
@@ -98,11 +98,15 @@ class big_int
 			if (sign != b.sign)
 				return b.sign;
 			if (l != b.l)
-				return (l < b.l) ^ sign;
+				return (l < b.l) ^ !sign;
 			for (int i = l - 1; i >= 0; i--)
 				if(x[i] != b.x[i])
-					return (x[i] < b.x[i]) ^ sign;
+					return (x[i] < b.x[i]) ^ !sign;
 			return false;
+		}
+		bool operator == (const big_int& b) const
+		{
+			return !(*this < b) && !(b <*this);
 		}
 
 		big_int operator - () const
