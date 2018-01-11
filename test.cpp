@@ -1,5 +1,6 @@
 #include <iostream>
 #include "big_int_light.hpp"
+using std::cin;
 using std::cout;
 using std::endl;
 #define test(val) cout << #val" = " << val << endl
@@ -19,5 +20,8 @@ int main()
 	test((a *= b));
 	test((a *= "1000000000"));
 	test((big_int(1000000000) * big_int(10000)));
+	cout << "Input b: ";
+	cin >> b;
+	test(b);
 	return 0;
 }

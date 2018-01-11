@@ -2,13 +2,14 @@
 	Name: big_int
 	Copyright: GPLv3.0
 	Author: xukl
-	Date: 11/01/18 13:38
+	Date: 11/01/18 14:50
 	Description: Big integer class.
 */
 #ifndef __BIGINT__
 #define __BIGINT__
 #include <cstdio>
 #include <cstring>
+#include <istream>
 #include <ostream>
 #include <iomanip>
 class big_int
@@ -33,6 +34,7 @@ class big_int
 					return *ax < *bx;
 			return false;
 		}
+		friend std::istream &operator>> (std::istream &, big_int &);
 		friend std::ostream &operator<< (std::ostream &, const big_int &);
 	public:
 		big_int() : x()
@@ -202,6 +204,13 @@ class big_int
 			putchar('\n');
 		}
 };
+std::istream &operator>> (std::istream &in, big_int &b)
+{
+	char buff[big_int::MAX * big_int::len + 100];
+	in >> buff;
+	b = buff;
+	return in;
+}
 std::ostream &operator<< (std::ostream &out, const big_int &b)
 {
 	if (b.l == 0)
@@ -213,7 +222,7 @@ std::ostream &operator<< (std::ostream &out, const big_int &b)
 		out << b.x[b.l - 1];
 		out << std::setfill('0');
 		for (int i = b.l - 2; i >= 0; --i)
-			out << std::setw(9) << b.x[i];
+			out << std::setw(big_int::len) << b.x[i];
 	}
 	return out;
 }
